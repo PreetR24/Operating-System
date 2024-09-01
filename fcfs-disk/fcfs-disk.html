@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FCFS Disk Scheduling Simulation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 12px;
+            width: 30%;
+            max-width: 50%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position:relative;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: calc(100% - 20px);
+            max-width: 250px;
+            text-align: center;
+            padding: 12px;
+            margin: 8px 0;
+            border: 2px solid #3c82c7;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus {
+            border-color: #007acc;
+            outline: none;
+        }
+
+        button {
+            padding: 12px 24px;
+            margin: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 6px;
+            color: #fff;
+            background-color: #0080ff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        button:hover {
+            background-color: #005bb5;
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(1px);
+        }
+
+        #clearBtn {
+            background-color: #ff4d4d;
+        }
+
+        #clearBtn:hover {
+            background-color: #cc0000;
+        }
+
+        #fcfsChart {
+            position: relative;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50%;
+            height: 10%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>FCFS Disk Scheduling Simulation</h2>
+        <label for="queue">Enter disk request queue:</label><br>
+        <input type="text" id="queue" placeholder="e.g., 176,79,34,60,92,11,41,114" required><br>
+        <label for="head">Enter initial head position:</label><br>
+        <input type="number" id="head" placeholder="e.g., 60" required><br>
+        <button onclick="simulateFCFS()">Simulate FCFS</button>
+        <button id="clearBtn">Clear</button>
+        <div id="output"></div>
+    </div>
+    <canvas id="fcfsChart"></canvas>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/fcfs-disk.js"></script>
+</body>
+
+</html>

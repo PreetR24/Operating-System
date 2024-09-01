@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Readers-Writers Simulation</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            min-height: 100vh;
+            margin: 0;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        button {
+            padding: 12px 24px;
+            margin: 10px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+        button:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0,123,255,0.5);
+        }
+        #log {
+            width: 80%;
+            max-width: 800px;
+            min-height: 200px;
+            border: 2px solid #0056b3;
+            padding: 15px;
+            overflow-y: auto;
+            margin-top: 20px;
+            border-radius: 8px;
+            background-color: #333;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            animation: fadeIn 0.5s ease;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Readers-Writers Simulation</h1>
+    <button id="startReaderBtn">Start Reader</button>
+    <button id="startWriterBtn">Start Writer</button>
+    <button id="clearLogBtn">Clear Log</button>
+    <div id="log"></div>
+
+    <script src="/reader-writer.js"></script>
+</body>
+</html>

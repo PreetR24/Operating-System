@@ -1,0 +1,206 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.body{
+    width: 100vw;
+    height: 100vh;
+    background-color: #302c2c;
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+    grid-template-rows: 2fr 1fr;
+}
+
+#sidebar{
+    grid-area: 1/1/3/2;
+    background-color: #1f1f1f;
+}
+
+#ins{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 10px;
+    color: #fff;
+    width: 100%;
+    overflow-y: auto;
+}
+#outs{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 10px;
+    color: #fff;
+    width: 100%;
+    border-top: 2px rgb(0, 0, 0) solid;
+}
+.container{
+    display: flex;
+    justify-content: space-between;
+    margin:  10px;
+    border-bottom: 1px solid #8a8787a1;
+}
+.container .tiles-group{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    min-width: 300px;
+    margin:  10px;
+}
+.btn{
+    background: #302c2c;
+    color: #fff;
+    border: 1px solid #837c7c56;
+    padding: 5px 18px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.btn-wraper{
+    margin-right: auto;
+    margin-left: 30px;
+
+}
+.btn.simulate{
+    background: #f36d20;
+}
+.btn:hover{
+    background: #837c7c56;
+    color: #ffffff;
+}
+.btn.simulate:hover{
+    background: #ff5e00c9;
+}
+.selecter{
+    background: #302c2c;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#RR {
+    /* Styles for the select element */
+    width: 200px;
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-top-left-radius: 9px;
+    border-bottom-left-radius: 9px;
+    background-color: #f9f9f90c;
+    color: #fff;
+}
+
+#RR option {
+    /* Styles for the option elements */
+    font-size: 14px;
+    color: #333;
+    padding: 8px;
+    background-color: #fff;
+    padding: 10px;
+    height: 20px;
+}
+
+#RR option:hover {
+    /* Hover effect for the option elements */
+    background-color: #f0f0f0;
+}
+.input-group{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px;
+}
+.input{
+    padding: 2px;
+    font-size: 16px;
+    width: clamp(170px,15vw,250px);
+}
+.config-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px;
+    width: auto;
+}
+.config-group .config{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 10px;
+    width: auto;
+}
+.config-group .input{
+    border: 1px solid #837c7c56;
+    border-radius: 5px;
+    text-align: center;
+    padding: 5px auto;
+    background: #1f1f1f;
+    color: #f0f0f0;
+}
+#table input{
+    background: #1f1f1f ;
+    border: none;
+    padding: 2px;
+    color: #f0f0f0;
+}
+#table{
+    margin-top: 10px ;
+    /* margin-left: 80px */
+    max-width: 100%;
+}
+#table th{
+    background: #302c2c;
+    color: #fff;
+    padding: 10px;
+    border: 1px solid #837c7c56;
+    margin: 0px;
+}
+#table tr{
+    padding: 0px;
+    border: 1px solid #837c7c56;
+    margin: 0px;
+}
+#table table{
+    border-spacing: 0px;
+    overflow: hidden;
+}
+
+.avgs > div{
+    margin-top: 10px;;
+}
+.chart-wrapper{
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+}
+.chart-wrapper #chart{
+    width: 100%;
+    background: #1f1f1f;
+    border: 1px solid #837c7c56;
+    padding: 12px;
+    border-radius: 5px;
+}
+#chart #row{
+    max-width: 100%;
+    display: flex;
+    overflow: auto;
+}
+#row > div{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #837c7c56;
+}
+
+#row{
+    background-color: #ccc;
+    padding: 0px;
+}

@@ -1,0 +1,336 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/priority/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer">
+    <title>Document</title>
+    <script type="text/javascript" charset="UTF-8" src="https://www.gstatic.com/charts/51/loader.js"></script>
+    <link id="load-css-0" rel="stylesheet" type="text/css"
+        href="https://www.gstatic.com/charts/51/css/core/tooltip.css">
+    <link id="load-css-1" rel="stylesheet" type="text/css" href="https://www.gstatic.com/charts/51/css/util/util.css">
+    <script type="text/javascript" charset="UTF-8"
+        src="https://www.gstatic.com/charts/51/js/jsapi_compiled_default_module.js"></script>
+    <script type="text/javascript" charset="UTF-8"
+        src="https://www.gstatic.com/charts/51/js/jsapi_compiled_graphics_module.js"></script>
+    <script type="text/javascript" charset="UTF-8"
+        src="https://www.gstatic.com/charts/51/js/jsapi_compiled_ui_module.js"></script>
+    <script type="text/javascript" charset="UTF-8"
+        src="https://www.gstatic.com/charts/51/js/jsapi_compiled_fw_module.js"></script>
+    <script type="text/javascript" charset="UTF-8"
+        src="https://www.gstatic.com/charts/51/third_party/dygraphs/dygraph-tickers-combined.js"></script>
+    <script type="text/javascript" charset="UTF-8"
+        src="https://www.gstatic.com/charts/51/js/jsapi_compiled_timeline_module.js"></script>
+</head>
+
+<body>
+    <div class="body">
+        <sidebar id="sidebar">
+
+        </sidebar>
+
+
+        <div id="ins">
+
+            <div class="container">
+                <div class="tiles-group">
+                    <div class="tile">SCHEDULER</div>
+                </div>
+                <div class="tiles-group">
+                    <div class="tile">
+                        <div class="btn">
+                            <span>
+                                Save
+                            </span>
+                        </div>
+                    </div>
+                    <div class="tile">Document</div>
+                </div>
+            </div>
+
+            <div class="selecter">
+                <div class="input-group">
+                    <select name="scheduler" id="RR">
+                        <option value="PPA">Priority </option>
+                    </select>
+                    <div class="config-group">
+                        <div class="config">
+                            <input type="number" name="name" class="input" id="qauntum" value="2">
+                            <label for="qauntum">Time Qauntum</label>
+                        </div>
+                        <div class="config">
+                            <input type="number" name="name" class="input" id="overhead" value="0">
+                            <label for="overhead">Overhead</label>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="btn-wraper">
+                    <div class="btn simulate" onclick="simulate()">
+                        <span>
+                            Simulate
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- //tables -->
+            <div id="table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Process Name</th>
+                            <th>Arrival Time</th>
+                            <th>Burst Time</th>
+                            <th>Priority</th>
+                            <th>completion time</th>
+                            <th>Turnaround Time</th>
+                            <th>Waiting Time</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody">
+                        <tr>
+                            <th><input type="checkbox" id="checkbox1" name="checkbox1" aria-checked="false"><span
+                                    class="checkbox checkbox1"></span></th>
+                            <th><input type="text" name="pn1" id="pn1" tabindex="1"></th>
+                            <th><input type="number" name="at1" id="at1" tabindex="2"></th>
+                            <th><input type="number" name="bt1" id="bt1" tabindex="3"></th>
+                            <th><input type="number" name="pr1" id="pr1" tabindex="4"></th>
+                            <th><input type="number" name="ct1" id="ct1" tabindex="-1" readonly=""></th>
+                            <th><input type="number" name="tt1" id="tt1" tabindex="-1" readonly=""></th>
+                            <th><input type="number" name="wt1" id="wt1" tabindex="-1" readonly=""></th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div id="outs">
+            <div class="container">
+                <div class="avgs">
+                    <div id="TTavg"></div>
+                    <div id="WTavg"></div>
+                </div>
+            </div>
+            <div class="chart-wrapper">
+                <div>Chart:</div>
+                <div id="chart">
+                    <div id="row"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="./rr.js"></script>
+    <script src="moress.js"></script>
+    <script>
+        google.charts.load("current", { packages: ["timeline"] });
+
+
+        var ttavg = document.getElementById("TTavg");
+        var wtavg = document.getElementById("WTavg");
+        class ProcessRow {
+            constructor(uid) {
+                this.pid = uid
+                this.pn = document.getElementById(`pn${uid}`);
+                this.at = document.getElementById(`at${uid}`);
+                this.bt = document.getElementById(`bt${uid}`);
+                this.pr = document.getElementById(`pr${uid}`);
+                this.ct = document.getElementById(`ct${uid}`);
+                this.tt = document.getElementById(`tt${uid}`);
+                this.wt = document.getElementById(`wt${uid}`);
+                this.checkbox = document.getElementById(`checkbox${uid}`);
+            }
+            reset() {
+                let uid = this.pid;
+                this.pn = document.getElementById(`pn${uid}`);
+                this.at = document.getElementById(`at${uid}`);
+                this.bt = document.getElementById(`bt${uid}`);
+                this.pr = document.getElementById(`pr${uid}`);
+                this.ct = document.getElementById(`ct${uid}`);
+                this.tt = document.getElementById(`tt${uid}`);
+                this.wt = document.getElementById(`wt${uid}`);
+                this.checkbox = document.getElementById(`checkbox${uid}`);
+
+            }
+        }
+        class ProcessRowBuilder {
+            constructor() {
+                this.total = 0;
+                this.list = [];
+                this.labels = ["pn", "at", "bt", "pr", "ct", "tt", "wt"];
+            }
+            set() {
+                for (let i = 0; i < prb.list.length; i++) {
+                    prb.list[i].reset();
+                }
+            }
+
+            createInputElement(type, name, id, tabindex) {
+                const input = document.createElement('input');
+                input.type = type;
+                input.name = name;
+                input.id = id;
+                input.tabIndex = tabindex;
+                // input.value = 0;
+
+                if (tabindex === -1) {
+                    input.readOnly = true;
+                }
+                return input;
+            }
+            inputCreater(uid) {
+                const tr = document.createElement('tr');
+
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.id = `checkbox${uid}`;
+                checkbox.name = `checkbox${uid}`;
+                checkbox.setAttribute('aria-checked', 'false');
+                checkbox.checked = false;
+
+                const span = document.createElement('span');
+                span.className = 'checkbox checkbox1';
+
+                const thCheckbox = document.createElement('th');
+                thCheckbox.appendChild(checkbox);
+                thCheckbox.appendChild(span);
+
+                tr.appendChild(thCheckbox);
+
+                const thInputs1 = document.createElement('th');
+                thInputs1.appendChild(this.createInputElement('text', `pn${uid}`, `pn${uid}`, uid * 4 - 3))
+                const thInputs2 = document.createElement('th');
+                thInputs2.appendChild(this.createInputElement('number', `at${uid}`, `at${uid}`, uid * 4 - 2))
+                const thInputs3 = document.createElement('th');
+                thInputs3.appendChild(this.createInputElement('number', `bt${uid}`, `bt${uid}`, uid * 4 - 1))
+                const thInputs4 = document.createElement('th');
+                thInputs4.appendChild(this.createInputElement('number', `pr${uid}`, `pr${uid}`, uid * 4))
+                const thInputs5 = document.createElement('th');
+                thInputs5.appendChild(this.createInputElement('number', `ct${uid}`, `ct${uid}`, -1))
+                const thInputs6 = document.createElement('th');
+                thInputs6.appendChild(this.createInputElement('number', `tt${uid}`, `tt${uid}`, -1))
+                const thInputs7 = document.createElement('th');
+                thInputs7.appendChild(this.createInputElement('number', `wt${uid}`, `wt${uid}`, -1))
+
+
+                tr.appendChild(thInputs1);
+                tr.appendChild(thInputs2);
+                tr.appendChild(thInputs3);
+                tr.appendChild(thInputs4);
+                tr.appendChild(thInputs5);
+                tr.appendChild(thInputs6);
+                tr.appendChild(thInputs7);
+
+                return tr;
+            }
+
+            addnew() {
+                this.total++;
+                this.list.push(new ProcessRow(this.total));
+                document.getElementById("tbody").appendChild(this.inputCreater(this.total));// += this.htmlparser(this.total);
+            }
+
+        }
+        let prb = new ProcessRowBuilder();
+        prb.addnew();
+        // prb.addnew();
+        // prb.addnew();
+        // let s = 
+
+        let chartMAX = parseFloat(document.getElementById("chart").offsetWidth).toFixed(2) - 26;
+        const createGraph = (g) => {
+
+            let blocks = g.getBlocks();
+            let html = "";
+            for (let i = 0; i < blocks.length; i++) {
+                html += `<div class="block">${blocks[i].processName}</div>`;
+            }
+            document.getElementById("row").style.width = chartMAX + "px";
+            document.getElementById("row").style.maxHeight = 200 + "px";
+
+            // document.getElementById("row").innerHTML = html;
+            var container = document.getElementById('row');
+            var chart = new google.visualization.Timeline(container);
+            var dataTable = new google.visualization.DataTable();
+
+            dataTable.addColumn({ type: 'string', id: 'Role' });
+            dataTable.addColumn({ type: 'string', id: 'Name' });
+            dataTable.addColumn({ type: 'string', id: 'style', role: 'style' });
+            dataTable.addColumn({ type: 'number', id: 'Start' });
+            dataTable.addColumn({ type: 'number', id: 'End' });
+            dataTable.addRows(blocks);
+
+            var options = {
+                timeline: {}
+            };
+            var options = {
+                //   colors: ['#cbb69d', '#603913', '#c69c6e'],
+                timeline: {
+                    rowLabelStyle: { fontName: 'Helvetica', fontSize: 24, color: '#fff' },
+                    barLabelStyle: { fontName: 'Garamond', fontSize: 14 },
+                    groupByRowLabel: true
+                }
+            };
+
+
+            chart.draw(dataTable);
+
+        }
+        const sims = {
+            "PPA": new PPA(),
+        }
+        const getSimulater = (s) => {
+            return sims[s];
+        }
+
+        const simulate = () => {
+            let s = getSimulater(document.getElementById("RR").value);
+            // let s = getSimulater("RR");
+            s.reset();
+            s.setOverhead(parseFloat(document.getElementById("overhead").value));
+            s.setQauntum(parseFloat(document.getElementById("qauntum").value));
+            let allowed = prb.list.filter(e => e.checkbox.checked);
+            for (let i = 0; i < allowed.length; i++) {
+                allowed[i].reset();
+
+                s.addProcess(
+                    allowed[i].pn.value,
+                    parseInt(allowed[i].at.value),
+                    parseInt(allowed[i].bt.value),
+                    allowed[i].pid,
+                    parseFloat(allowed[i].pr.value)
+                );
+            }
+            s.simulate();
+            let completed = s.getCompleted();
+            completed.sort((a, b) => a.pid - b.pid);
+            prb.list.forEach(e => {
+                e.ct.value = "";
+                e.tt.value = "";
+                e.wt.value = "";
+            })
+            for (let i = 0; i < completed.length; i++) {
+                allowed[i].ct.value = parseFloat(completed[i].ct).toFixed(2);
+                allowed[i].tt.value = parseFloat(completed[i].tt).toFixed(2);
+                allowed[i].wt.value = parseFloat(completed[i].wt).toFixed(2);
+            }
+            ttavg.innerHTML = `Average Turnaround Time: ${s.getAvgTT().toFixed(2)}`;
+            wtavg.innerHTML = `Average Waiting Time: ${s.getAvgWT().toFixed(2)}`;
+            createGraph(s.getGantt());
+        }
+        prb.set()
+        var lastRow = prb.list[prb.list.length - 1];
+        const addNewEvent = () => {
+            if (lastRow.pn.value.length > 0 || lastRow.at.value.length > 0 || lastRow.bt.value.length > 0 || lastRow.pr.value.length > 0) {
+                lastRow.checkbox.checked = true;
+                prb.addnew();
+                prb.set();
+                lastRow = prb.list[prb.list.length - 1];
+                lastRow.pn.addEventListener("input", addNewEvent);
+            }
+        }
+        lastRow.pn.addEventListener("input", addNewEvent);
+    </script>
+</body>
